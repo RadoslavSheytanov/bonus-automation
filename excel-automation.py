@@ -68,11 +68,13 @@ if st.button('Process File'):
     if source_file and bonus_type and bonus_code and name and platform:
         output_file_path = process_file(source_file, bonus_type, bonus_code, name, platform)
         if output_file_path:
-            st.download_button(label="Download Output File", data=output_file_path, file_name=output_file_path.split('/')[-1])
+            with open(output_file_path, "rb") as f:
+                bytes = f.read()
+                st.download_button(label="Download Output File", data=bytes, file_name=output_file_path.split('/')[-1])
     else:
         st.error("All fields are required.")
 
 # Add hyperlinks to LinkedIn and GitHub
 linkedin_url = "https://ie.linkedin.com/in/radoslav-sheytanov-771a43260"
 github_url = "https://github.com/radoslavSheytanov/"
-st.markdown(f"Development and Support - [LinkedIn]({linkedin_url}) and [GitHub]({github_url})")
+st.markdown(f"\n\n\nDevelopment and Support - [LinkedIn]({linkedin_url}) and [GitHub]({github_url})")
