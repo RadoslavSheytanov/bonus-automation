@@ -1,4 +1,4 @@
-# Bonus Templating System Documentation
+# Bonus Templating System (An Internal Excel Automation Tool) Documentation
 
 ## Overview
 The Bonus Templating System is a Streamlit application that allows users to process data from an Excel file and generate a CSV file based on the selected bonus type. The generated CSV file can be downloaded by the user.
