@@ -55,7 +55,7 @@ def process_file(source_file, bonus_type, bonus_code, name, platform):
         return None
 
 # Streamlit UI
-st.title('Excel Bonus Template Generator - Nextpath')
+st.title('Bonus Templating System - Internal Tool\n Nextpath Ltd.')
 
 # Input widgets
 source_file = st.file_uploader("Choose a source file", type=['xlsx', 'xls'])
@@ -71,3 +71,8 @@ if st.button('Process File'):
             st.download_button(label="Download Output File", data=output_file_path, file_name=output_file_path.split('/')[-1])
     else:
         st.error("All fields are required.")
+
+# Add hyperlinks to LinkedIn and GitHub
+linkedin_url = "https://ie.linkedin.com/in/radoslav-sheytanov-771a43260"
+github_url = "https://github.com/radoslavSheytanov/"
+st.markdown(f"Development and Support - [LinkedIn]({linkedin_url}) and [GitHub]({github_url})")
