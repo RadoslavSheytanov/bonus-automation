@@ -9,19 +9,25 @@ import os
 def process_file(source_file, bonus_type, bonus_code, name, platform):
     try:
         # Open the source file
-        source_wb = openpyxl.load_workbook(source_file)
+        source_wb = openpyxl.load_workbook(filename=source_file)
         source_sheet = source_wb.active
 
-        # Get the A and B columns from the source file excluding the first row
-        rows_to_copy = list(source_sheet.iter_rows(min_row=2, min_col=1, max_col=2, values_only=True))
+        # Check the type of data in cells A1 and B1
+        if isinstance(source_sheet['A1'].value, str) or isinstance(source_sheet['B1'].value, str):
+            start_row = 2
+        else:
+            start_row = 1
+
+        # Get the A and B columns from the source file, starting from the determined row
+        rows_to_copy = list(source_sheet.iter_rows(min_row=start_row, min_col=1, max_col=2, values_only=True))
 
         # Prepare the CSV file name
         today = date.today()
-        output_file_name = f"{bonus_code}_{today.strftime('%d%m%y')}_{name}_{platform}.csv"
+        output_file_name = f"{bonus_code.replace('ddmmy', today.strftime('%d%m%y'))}_{name}_{platform}.csv"
         output_file_path = tempfile.gettempdir() + '/' + output_file_name
 
         # Set the header based on the bonus type
-        if bonus_type == 'Free Bets' or bonus_type == 'Casino Bonus' or bonus_type == 'Sports Bonus':
+        if bonus_type == 'Free Bets' or bonus_type == 'Casino Bonus' or bonus_type == 'Sports Bonus' or bonus_type == 'Prize Picker':
             header = ['SBUSERID', 'Bonus Value']
         elif bonus_type == 'Free Spins (Daily Lucky Spins)':
             header = ['(insert SbPin)', '(insert amount)']
@@ -49,11 +55,11 @@ def process_file(source_file, bonus_type, bonus_code, name, platform):
         return None
 
 # Streamlit UI
-st.title('File Processor')
+st.title('Excel Bonus Template Generator - Nextpath')
 
 # Input widgets
 source_file = st.file_uploader("Choose a source file", type=['xlsx', 'xls'])
-bonus_type = st.selectbox('Bonus Type', ['Free Bets', 'Free Spins', 'Free Spins (Daily Lucky Spins)', 'Casino Bonus', 'Sports Bonus'])
+bonus_type = st.selectbox('Bonus Type', ['Free Bets', 'Free Spins', 'Free Spins (Daily Lucky Spins)', 'Casino Bonus', 'Sports Bonus', 'Prize Picker'])
 bonus_code = st.text_input('Bonus Code')
 name = st.text_input('Name')
 platform = st.selectbox('Platform', ['PBULL', 'SBULL'])
@@ -62,6 +68,6 @@ if st.button('Process File'):
     if source_file and bonus_type and bonus_code and name and platform:
         output_file_path = process_file(source_file, bonus_type, bonus_code, name, platform)
         if output_file_path:
-            st.download_button(label="Download Output File", data=output_file_path, file_name='output.csv')
+            st.download_button(label="Download Output File", data=output_file_path, file_name=output_file_path.split('/')[-1])
     else:
         st.error("All fields are required.")
