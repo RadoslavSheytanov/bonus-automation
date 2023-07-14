@@ -55,7 +55,7 @@ def process_file(source_file, bonus_type, bonus_code, name, platform):
         return None
 
 # Streamlit UI
-st.title('Bonus Templating System - Internal Tool\n Nextpath Ltd.')
+st.title('Bonus Templating System')
 
 # Input widgets
 source_file = st.file_uploader("Choose a source file", type=['xlsx', 'xls'])
