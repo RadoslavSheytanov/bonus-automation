@@ -1,6 +1,6 @@
 # Bonus Templating System (An Internal Excel Automation Tool) Documentation
 
-![image](plant-UML-diagram.png/)
+![image](plantUML-diagram.png)
 
 
 ## Overview
