@@ -11,7 +11,7 @@ The application is written in Python and utilizes the following libraries:
 ## Installation
 To run the Bonus Templating System, make sure you have Python 3.x installed on your system. Then follow these steps:
 
-1. Clone the project repository from GitHub: `git clone` https://github.com/radoslavSheytanov/bonus-templating-system.git
+1. Clone the project repository from GitHub to your local machine.
 2. Navigate to the project directory: `cd bonus-templating-system`
 3. Install the required Python dependencies using pip: `pip install -r requirements.txt`
 4. Run the application: `streamlit run excel-automation.py`
