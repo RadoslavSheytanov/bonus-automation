@@ -80,6 +80,9 @@ The Bonus Templating System UI provides 10 blank lines after the file processing
 
 The application also displays hyperlinks to the developer's LinkedIn and GitHub profiles for development and support-related inquiries.
 
+The diagram was created with a PlantUML Script [PlantUML Script](https://plantuml.com/)
+
+
 ## Development and Support
 Your contributions are welcome!
 
