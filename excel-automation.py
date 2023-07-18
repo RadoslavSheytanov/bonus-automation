@@ -57,11 +57,9 @@ if st.button('Process File'):
     elif bonus_type and bonus_code and name and platform:
         output_file_path = process_file(source_file, bonus_type, bonus_code, name, platform)
         if output_file_path:
-            with open(output_file_path, "rb") as f:
-                file_bytes = f.read()
             st.download_button(
                 label="Download Output File",
-                data=file_bytes,
+                data=output_file_path,
                 file_name=os.path.basename(output_file_path)
             )
     else:
