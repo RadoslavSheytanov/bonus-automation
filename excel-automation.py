@@ -10,22 +10,22 @@ def process_file(source_file, bonus_type, bonus_code, name, platform):
         # Load the source file using pandas
         df = pd.read_excel(source_file)
 
+        # Check the type of data in cells A1 and B1
+        if isinstance(df.iloc[0, 0], str) or isinstance(df.iloc[0, 1], str):
+            start_row = 2
+        else:
+            start_row = 1
+
+        # Get the first two columns from the source file, starting from the determined row
+        df = df.iloc[start_row - 1:, :2]
+
         # Prepare the CSV file name
         today = date.today()
-        output_file_name = f"{bonus_code.replace('ddmmy', today.strftime('%d%m%y'))}_{name}_{platform}.csv"
+        output_file_name = f"{bonus_code.replace('ddmmyy', today.strftime('%d%m%y'))}_{name}_{platform}.csv"
 
         # Create a temporary directory for the output files
         with tempfile.TemporaryDirectory() as temp_dir:
             output_file_path = os.path.join(temp_dir, output_file_name)
-
-            # Set the header based on the bonus type
-            if bonus_type == 'Free Bets' or bonus_type == 'Casino Bonus' or bonus_type == 'Sports Bonus' or bonus_type == 'Prize Picker':
-                header = ['SBUSERID', 'Bonus Value']
-            elif bonus_type == 'Free Spins':
-                df = df.iloc[:, :2]  # Keep only the first two columns
-            else:
-                header = [''] * df.shape[1]
-                df.columns = header
 
             # Save the DataFrame to a CSV file
             df.to_csv(output_file_path, index=False)
