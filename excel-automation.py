@@ -13,35 +13,30 @@ def process_file(source_file, bonus_type, bonus_code, name, platform):
         # Prepare the CSV file name
         today = date.today()
         output_file_name = f"{bonus_code.replace('ddmmy', today.strftime('%d%m%y'))}_{name}_{platform}.csv"
-        output_file_path = os.path.join(tempfile.gettempdir(), output_file_name)
 
-        # Set the header based on the bonus type
-        if bonus_type == 'Free Bets' or bonus_type == 'Casino Bonus' or bonus_type == 'Sports Bonus' or bonus_type == 'Prize Picker':
-            header = ['SBUSERID', 'Bonus Value']
-        elif bonus_type == 'Free Spins (Daily Lucky Spins)':
-            header = ['(insert SbPin)', '(insert amount)']
-        else:
-            header = [''] * df.shape[1]
+        # Create a temporary directory for the output files
+        with tempfile.TemporaryDirectory() as temp_dir:
+            output_file_path = os.path.join(temp_dir, output_file_name)
 
-        # Adjust the header if the number of columns doesn't match
-        if len(header) != df.shape[1]:
-            st.warning(f"Warning: The number of columns in the file ({df.shape[1]}) doesn't match the expected header length ({len(header)}).")
-
-            if len(header) > df.shape[1]:
-                header = header[:df.shape[1]]
+            # Set the header based on the bonus type
+            if bonus_type == 'Free Bets' or bonus_type == 'Casino Bonus' or bonus_type == 'Sports Bonus' or bonus_type == 'Prize Picker':
+                header = ['SBUSERID', 'Bonus Value']
+            elif bonus_type == 'Free Spins':
+                header = None  # No header
+                df = df.iloc[:, :2]  # Keep only the first two columns
             else:
-                df = df.iloc[:, :len(header)]
+                header = [''] * df.shape[1]
 
-        # Assign the header to the DataFrame
-        df.columns = header
+            # Assign the header to the DataFrame
+            df.columns = header
 
-        # Save the DataFrame to a CSV file
-        df.to_csv(output_file_path, index=False)
+            # Save the DataFrame to a CSV file
+            df.to_csv(output_file_path, index=False)
 
-        # Print completion message
-        st.success("File processing completed successfully")
+            # Print completion message
+            st.success("File processing completed successfully")
 
-        return output_file_path
+            return output_file_path
 
     except Exception as e:
         # Print error message
@@ -54,18 +49,20 @@ st.title('Bonus Templating System')
 
 # Input widgets
 source_file = st.file_uploader("Choose a source file", type=['xlsx', 'xls'])
-bonus_type = st.selectbox('Bonus Type', ['Free Bets', 'Free Spins', 'Free Spins (Daily Lucky Spins)', 'Casino Bonus', 'Sports Bonus', 'Prize Picker'])
+bonus_type = st.selectbox('Bonus Type', ['Free Bets', 'Free Spins', 'Casino Bonus', 'Sports Bonus', 'Prize Picker'])
 bonus_code = st.text_input('Bonus Code')
 name = st.text_input('Name')
 platform = st.selectbox('Platform', ['PBULL', 'SBULL'])
 
 if st.button('Process File'):
-    if source_file and bonus_type and bonus_code and name and platform:
+    if source_file is None:
+        st.error("Please select a source file.")
+    elif bonus_type and bonus_code and name and platform:
         output_file_path = process_file(source_file, bonus_type, bonus_code, name, platform)
         if output_file_path:
             with open(output_file_path, "rb") as f:
                 bytes = f.read()
-                st.download_button(label="Download Output File", data=bytes, file_name=output_file_path.split('/')[-1])
+                st.download_button(label="Download Output File", data=bytes, file_name=os.path.basename(output_file_path))
     else:
         st.error("All fields are required.")
 
