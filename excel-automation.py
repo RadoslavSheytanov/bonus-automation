@@ -1,25 +1,14 @@
 import streamlit as st
-import openpyxl
+import pandas as pd
 import csv
 import tempfile
 from datetime import date
-import pandas as pd
 import os
 
 def process_file(source_file, bonus_type, bonus_code, name, platform):
     try:
-        # Open the source file
-        source_wb = openpyxl.load_workbook(filename=source_file)
-        source_sheet = source_wb.active
-
-        # Check the type of data in cells A1 and B1
-        if isinstance(source_sheet['A1'].value, str) or isinstance(source_sheet['B1'].value, str):
-            start_row = 2
-        else:
-            start_row = 1
-
-        # Get the A and B columns from the source file, starting from the determined row
-        rows_to_copy = list(source_sheet.iter_rows(min_row=start_row, min_col=1, max_col=2, values_only=True))
+        # Load the source file using pandas
+        df = pd.read_excel(source_file)
 
         # Prepare the CSV file name
         today = date.today()
@@ -34,17 +23,14 @@ def process_file(source_file, bonus_type, bonus_code, name, platform):
         else:
             header = ['', '']
 
-        # Create a pandas DataFrame from the rows_to_copy
-        df = pd.DataFrame(rows_to_copy, columns=header)
+        # Assign the header to the DataFrame
+        df.columns = header
 
         # Save the DataFrame to a csv file
         df.to_csv(output_file_path, index=False)
 
-        # Close the workbook
-        source_wb.close()
-
         # Print completion message
-        st.success(f"File processing completed successfully")
+        st.success("File processing completed successfully")
 
         return output_file_path
 
