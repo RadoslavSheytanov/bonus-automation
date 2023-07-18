@@ -29,7 +29,6 @@ Upon running the application, you will be presented with a web interface to inte
 2. **Bonus Type**: Select the type of bonus from the dropdown list. The available options are:
    - Free Bets
    - Free Spins
-   - Free Spins (Daily Lucky Spins)
    - Casino Bonus
    - Sports Bonus
    - Prize Picker
