@@ -29,7 +29,9 @@ def process_file(source_file, bonus_type, bonus_code, name, platform):
 
         # Save the non-VIP data to a temporary CSV file
         temp_dir = tempfile.mkdtemp()
-        output_file_path = os.path.join(temp_dir, f"{name}_{platform}_{bonus_code.replace('ddmmyy', datetime.datetime.now().strftime('%d%m%Y'))}.csv")
+        today_date = datetime.datetime.now().strftime('%d%m%Y')
+        file_name = f"{bonus_code}_{today_date}_{name}_{platform}.csv"
+        output_file_path = os.path.join(temp_dir, file_name)
         non_vip_data.to_csv(output_file_path, index=False, header=bonus_type != 'Free Spins')
 
         return output_file_path, vip_data
@@ -45,7 +47,7 @@ def get_csv_download_link(csv_file):
         href = f'<a href="data:file/csv;base64,{b64}" download="{csv_file.split("/")[-1]}" style="display: inline-block; padding: 0.5em 1em; color: #ffffff; background-color: #007bff; border-radius: 0.25em; text-decoration: none;">Download CSV File</a>'
     return href
 
-st.title('Excel Automation')
+st.title('Bonus Templating System')
 
 uploaded_file = st.file_uploader("Choose a file", type=['xls', 'xlsx'])
 bonus_type = st.selectbox("Bonus type", ["Free Bets", "Free Spins", "Casino Bonus", "Sports Bonus", "Prize Picker"])
@@ -65,5 +67,7 @@ if st.button('Process File'):
         if vip_data is not None and not vip_data.empty:
             st.markdown("**VIP Players (should be credited in a different campaign):**", unsafe_allow_html=True)
             st.dataframe(vip_data)
+        else:
+            st.success("This file doesn't contain VIP Players. Credit as normal.")
     else:
         st.error("Please provide all inputs.")
