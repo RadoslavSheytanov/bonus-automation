@@ -29,7 +29,7 @@ def process_file(source_file, bonus_type, bonus_code, name, platform):
 
         # Save the non-VIP data to a temporary CSV file
         temp_dir = tempfile.mkdtemp()
-        output_file_path = os.path.join(temp_dir, f"{name}_{platform}_{bonus_type.replace(' ', '')}_{bonus_code.replace('ddmmyy', datetime.datetime.now().strftime('%d%m%Y'))}.csv")
+        output_file_path = os.path.join(temp_dir, f"{bonus_code.replace('ddmmy', datetime.datetime.now().strftime('%d%m%Y'))}_{name}.csv")
         non_vip_data.to_csv(output_file_path, index=False, header=bonus_type != 'Free Spins')
 
         return output_file_path, vip_data
@@ -42,7 +42,7 @@ def get_csv_download_link(csv_file):
     with open(csv_file, 'rb') as f:
         bytes = f.read()
         b64 = base64.b64encode(bytes).decode()
-        href = f'<a href="data:file/csv;base64,{b64}" download="non_vip_data.csv">Download CSV File</a>'
+        href = f'<a href="data:file/csv;base64,{b64}" download="{csv_file.split("/")[-1]}">Download CSV File</a>'
     return href
 
 st.title('Excel Automation')
