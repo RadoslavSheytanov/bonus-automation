@@ -53,10 +53,10 @@ def get_csv_download_link(csv_file):
 st.title('Bonus Templating System')
 
 uploaded_file = st.file_uploader("Choose a file", type=['xls', 'xlsx'])
-bonus_type = st.selectbox("Bonus type", ["Free Bets", "Free Spins", "Casino Bonus", "Sports Bonus", "Prize Picker"])
-bonus_code = st.text_input("Bonus code", "Bonuscode")
+bonus_type = st.selectbox("Bonus type", ["------", "Free Bets", "Free Spins", "Casino Bonus", "Sports Bonus", "Prize Picker"])
+bonus_code = st.text_input("Bonus code", "------")
 name = st.text_input("Name")
-platform = st.selectbox("Platform", ["PBULL", "SBULL"])
+platform = st.selectbox("Platform", ["------", "PBULL", "SBULL"])
 
 if st.button('Process File'):
     if uploaded_file is not None and bonus_type and bonus_code and name and platform:
