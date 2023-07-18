@@ -53,10 +53,10 @@ def get_csv_download_link(csv_file):
 st.title('Bonus Templating System')
 
 uploaded_file = st.file_uploader("Choose a file", type=['xls', 'xlsx'])
-bonus_type = st.selectbox("Bonus type", ["------", "Free Bets", "Free Spins", "Casino Bonus", "Sports Bonus", "Prize Picker"])
-bonus_code = st.text_input("Bonus code", "------")
-name = st.text_input("Name")
-platform = st.selectbox("Platform", ["------", "PBULL", "SBULL"])
+bonus_type = st.selectbox("Bonus Type:", ["------", "Free Bets", "Free Spins", "Casino Bonus", "Sports Bonus", "Prize Picker"])
+bonus_code = st.text_input("Bonus Code:", "------")
+name = st.text_input("Agent's Name:")
+platform = st.selectbox("Platform:", ["------", "PBULL", "SBULL"])
 
 if st.button('Process File'):
     if uploaded_file is not None and bonus_type and bonus_code and name and platform:
@@ -68,10 +68,10 @@ if st.button('Process File'):
 
         # Display the VIP data
         if vip_data is not None and not vip_data.empty:
-            st.markdown("**ATTENTION: This file consists of VIP Players and they should be credited in a different campaign:**", unsafe_allow_html=True)
+            st.markdown("**ATTENTION: This file consists of VIP Player/s and they should be credited in a different campaign:**", unsafe_allow_html=True)
             st.dataframe(vip_data)
         else:
-            st.success("This file doesn't contain VIP Players. Credit as normal.")
+            st.success("This file doesn't contain VIP Player/s. Credit as normal.")
     else:
         st.error("Please provide all inputs.")
 
