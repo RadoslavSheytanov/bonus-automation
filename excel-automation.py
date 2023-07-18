@@ -34,9 +34,10 @@ def process_file(source_file, bonus_type, bonus_code, name, platform, selected_d
         # Save the non-VIP data to a temporary CSV file
         temp_dir = tempfile.mkdtemp()
         if selected_date:
-            file_name = f"{bonus_code}_{selected_date}_{name}_{platform}.csv"
+            selected_date_str = selected_date.strftime('%d%m%y')
+            file_name = f"{bonus_code}_{selected_date_str}_{name}_{platform}.csv"
         else:
-            today_date = datetime.datetime.now().strftime('%d%m%Y')
+            today_date = datetime.datetime.now().strftime('%d%m%y')
             file_name = f"{bonus_code}_{today_date}_{name}_{platform}.csv"
         output_file_path = os.path.join(temp_dir, file_name)
         non_vip_data.to_csv(output_file_path, index=False, header=bonus_type != 'Free Spins')
@@ -60,7 +61,7 @@ uploaded_file = st.file_uploader("Choose a file", type=['xls', 'xlsx'])
 bonus_type = st.selectbox("Bonus Type:", ["------", "Free Bets", "Free Spins", "Casino Bonus", "Sports Bonus", "Prize Picker"])
 bonus_code = st.text_input("Bonus Code:", "")
 
-selected_date = st.date_input("Select Date (Optional):")
+selected_date = st.date_input("Select Date:")
 
 name = st.text_input("Agent's Name:")
 platform = st.selectbox("Platform:", ["------", "PBULL", "SBULL"])
