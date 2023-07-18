@@ -81,7 +81,7 @@ if st.button('Process File'):
             st.markdown("**ATTENTION: This file consists of VIP Player/s and they should be credited in a different campaign:**", unsafe_allow_html=True)
             st.dataframe(vip_data)
         else:
-            st.success("This file doesn't contain VIP Player/s. Click "Download CSV file" button above and credit the bonus as normal.")
+            st.success("This file doesn't contain VIP Player/s. Click -Download CSV file- button above and credit the bonus as normal.")
     else:
         st.error("Please provide all inputs.")
 
