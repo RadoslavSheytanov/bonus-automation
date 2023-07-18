@@ -13,7 +13,7 @@ def process_file(source_file, bonus_type, bonus_code, name, platform):
         # Prepare the CSV file name
         today = date.today()
         output_file_name = f"{bonus_code.replace('ddmmy', today.strftime('%d%m%y'))}_{name}_{platform}.csv"
-        output_file_path = tempfile.gettempdir() + '/' + output_file_name
+        output_file_path = os.path.join(tempfile.gettempdir(), output_file_name)
 
         # Set the header based on the bonus type
         if bonus_type == 'Free Bets' or bonus_type == 'Casino Bonus' or bonus_type == 'Sports Bonus' or bonus_type == 'Prize Picker':
@@ -21,7 +21,8 @@ def process_file(source_file, bonus_type, bonus_code, name, platform):
         elif bonus_type == 'Free Spins (Daily Lucky Spins)':
             header = ['(insert SbPin)', '(insert amount)']
         else:
-            header = ['', '']
+            # Use empty strings as headers if the bonus type doesn't match any condition
+            header = [''] * df.shape[1]
 
         # Assign the header to the DataFrame
         df.columns = header
