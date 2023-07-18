@@ -29,7 +29,7 @@ def process_file(source_file, bonus_type, bonus_code, name, platform):
 
         # Save the non-VIP data to a temporary CSV file
         temp_dir = tempfile.mkdtemp()
-        output_file_path = os.path.join(temp_dir, f"{bonus_code.replace('ddmmy', datetime.datetime.now().strftime('%d%m%Y'))}_{name}.csv")
+        output_file_path = os.path.join(temp_dir, f"{name}_{platform}_{bonus_code.replace('ddmmyy', datetime.datetime.now().strftime('%d%m%Y'))}.csv")
         non_vip_data.to_csv(output_file_path, index=False, header=bonus_type != 'Free Spins')
 
         return output_file_path, vip_data
