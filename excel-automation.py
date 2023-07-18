@@ -1,76 +1,61 @@
-import streamlit as st
 import pandas as pd
-import csv
+import streamlit as st
 import tempfile
-from datetime import date
 import os
+import datetime
+import re
 
 def process_file(source_file, bonus_type, bonus_code, name, platform):
     try:
-        # Load the source file using pandas
         df = pd.read_excel(source_file)
-
+        
+        # Split the data into VIP and non-VIP rows
+        vip_data = df[df.iloc[:, 1].str.contains('VIP\s*\(\d+\)', na=False, regex=True)]
+        non_vip_data = df[~df.iloc[:, 1].str.contains('VIP\s*\(\d+\)', na=False, regex=True)]
+        
         # Keep only the first two columns
-        df = df.iloc[:, :2]
-
-        # Determine the header based on the bonus type
-        if bonus_type == 'Free Bets' or bonus_type == 'Casino Bonus' or bonus_type == 'Sports Bonus' or bonus_type == 'Prize Picker':
-            header = ['SBUSERID', 'Bonus Value']
+        non_vip_data = non_vip_data.iloc[:, :2]
+        
+        # Process the non-VIP data according to the bonus type
+        if bonus_type == 'Free Bets':
+            non_vip_data.columns = ['SBUSERID', 'Bonus Value']
         elif bonus_type == 'Free Spins':
-            header = None  # No header for Free Spins
+            non_vip_data.columns = [None, None]
+        elif bonus_type in ['Casino Bonus', 'Sports Bonus', 'Prize Picker']:
+            non_vip_data.columns = ['SBUSERID', 'Bonus Code']
         else:
-            header = [''] * df.shape[1]
-            df.columns = header
+            non_vip_data.columns = ['', '']
 
-        # Prepare the CSV file name
-        today = date.today()
-        output_file_name = f"{bonus_code.replace('ddmmyy', today.strftime('%d%m%y'))}_{name}_{platform}.csv"
-
-        # Create a temporary directory for the output files
+        # Save the non-VIP data to a temporary CSV file
         temp_dir = tempfile.mkdtemp()
+        output_file_path = os.path.join(temp_dir, f"{name}_{platform}_{bonus_type.replace(' ', '')}_{bonus_code.replace('ddmmy', datetime.datetime.now().strftime('%d%m%Y'))}.csv")
+        non_vip_data.to_csv(output_file_path, index=False, header=bonus_type != 'Free Spins')
 
-        # Save the DataFrame to a CSV file
-        output_file_path = os.path.join(temp_dir, output_file_name)
-        df.to_csv(output_file_path, index=False, header=header)
-
-        # Print completion message
-        st.success("File processing completed successfully")
-
-        return output_file_path
-
+        return output_file_path, vip_data
     except Exception as e:
-        # Print error message
-        st.error(f"Error processing file. Error message: {str(e)}")
+        st.error(f"An error occurred while processing the file: {str(e)}")
+        return None, None
 
-        return None
+st.title('Excel Automation')
 
-# Streamlit UI
-st.title('Bonus Templating System')
-
-# Input widgets
-source_file = st.file_uploader("Choose a source file", type=['xlsx', 'xls'])
-bonus_type = st.selectbox('Bonus Type', ['Free Bets', 'Free Spins', 'Casino Bonus', 'Sports Bonus', 'Prize Picker'])
-bonus_code = st.text_input('Bonus Code')
-name = st.text_input('Name')
-platform = st.selectbox('Platform', ['PBULL', 'SBULL'])
+uploaded_file = st.file_uploader("Choose a file", type=['xls', 'xlsx'])
+bonus_type = st.text_input("Bonus type", "Free Bets")
+bonus_code = st.text_input("Bonus code", "ddmmy")
+name = st.text_input("Name", "Test")
+platform = st.text_input("Platform", "PBULL")
 
 if st.button('Process File'):
-    if source_file is None:
-        st.error("Please select a source file.")
-    elif bonus_type and bonus_code and name and platform:
-        output_file_path = process_file(source_file, bonus_type, bonus_code, name, platform)
-        if output_file_path:
-            with open(output_file_path, "rb") as f:
-                file_bytes = f.read()
-            st.download_button(
-                label="Download Output File",
-                data=file_bytes,
-                file_name=output_file_path.split('/')[-1]
-            )
-    else:
-        st.error("All fields are required.")
+    if uploaded_file is not None and bonus_type and bonus_code and name and platform:
+        output_file_path, vip_data = process_file(uploaded_file, bonus_type, bonus_code, name, platform)
 
-# Add hyperlinks to LinkedIn and GitHub
-linkedin_url = "https://ie.linkedin.com/in/radoslav-sheytanov-771a43260"
-github_url = "https://github.com/radoslavSheytanov/"
-st.markdown(f"Development and Support - [LinkedIn]({linkedin_url}) and [GitHub]({github_url})")
+        # Display the non-VIP data
+        if output_file_path is not None:
+            st.write(f"Non-VIP data has been saved to {output_file_path}")
+
+        # Display the VIP data
+        if vip_data is not None and not vip_data.empty:
+            st.write("VIP Players:")
+            for _, row in vip_data.iterrows():
+                st.write(f"{row['Sbuserid']} - {row['Sum of FS'].split('(')[1].split(')')[0]} FS")
+    else:
+        st.error("Please provide all inputs.")
