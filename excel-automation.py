@@ -5,8 +5,9 @@ import os
 import datetime
 import re
 import base64
+import streamlit.components.v1 as components
 
-def process_file(source_file, bonus_type, bonus_code, name, platform):
+def process_file(source_file, bonus_type, bonus_code, name, platform, selected_date):
     try:
         df = pd.read_excel(source_file)
         
@@ -32,8 +33,11 @@ def process_file(source_file, bonus_type, bonus_code, name, platform):
 
         # Save the non-VIP data to a temporary CSV file
         temp_dir = tempfile.mkdtemp()
-        today_date = datetime.datetime.now().strftime('%d%m%Y')
-        file_name = f"{bonus_code}_{today_date}_{name}_{platform}.csv"
+        if selected_date:
+            file_name = f"{bonus_code}_{selected_date}_{name}_{platform}.csv"
+        else:
+            today_date = datetime.datetime.now().strftime('%d%m%Y')
+            file_name = f"{bonus_code}_{today_date}_{name}_{platform}.csv"
         output_file_path = os.path.join(temp_dir, file_name)
         non_vip_data.to_csv(output_file_path, index=False, header=bonus_type != 'Free Spins')
 
@@ -58,9 +62,11 @@ bonus_code = st.text_input("Bonus Code:", "")
 name = st.text_input("Agent's Name:")
 platform = st.selectbox("Platform:", ["------", "PBULL", "SBULL"])
 
+selected_date = st.date_input("Select Date (Optional):")
+
 if st.button('Process File'):
-    if uploaded_file is not None and bonus_type and bonus_code and name and platform:
-        output_file_path, vip_data = process_file(uploaded_file, bonus_type, bonus_code, name, platform)
+    if uploaded_file is not None and bonus_type != "------" and bonus_code and name and platform:
+        output_file_path, vip_data = process_file(uploaded_file, bonus_type, bonus_code, name, platform, selected_date)
 
         # Display the non-VIP data
         if output_file_path is not None:
