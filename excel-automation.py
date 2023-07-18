@@ -61,7 +61,7 @@ uploaded_file = st.file_uploader("Choose a file", type=['xls', 'xlsx'])
 bonus_type = st.selectbox("Bonus Type:", ["------", "Free Bets", "Free Spins", "Casino Bonus", "Sports Bonus", "Prize Picker"])
 bonus_code = st.text_input("Bonus Code:", "")
 
-selected_date = st.date_input("Select Date (Optional):")
+selected_date = st.date_input("Select Date:")
 
 name = st.text_input("Agent's Name:")
 platform = st.selectbox("Platform:", ["------", "PBULL", "SBULL"])
