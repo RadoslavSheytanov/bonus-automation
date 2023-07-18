@@ -22,13 +22,10 @@ def process_file(source_file, bonus_type, bonus_code, name, platform):
             if bonus_type == 'Free Bets' or bonus_type == 'Casino Bonus' or bonus_type == 'Sports Bonus' or bonus_type == 'Prize Picker':
                 header = ['SBUSERID', 'Bonus Value']
             elif bonus_type == 'Free Spins':
-                header = None  # No header
                 df = df.iloc[:, :2]  # Keep only the first two columns
             else:
                 header = [''] * df.shape[1]
-
-            # Assign the header to the DataFrame
-            df.columns = header
+                df.columns = header
 
             # Save the DataFrame to a CSV file
             df.to_csv(output_file_path, index=False)
@@ -60,9 +57,11 @@ if st.button('Process File'):
     elif bonus_type and bonus_code and name and platform:
         output_file_path = process_file(source_file, bonus_type, bonus_code, name, platform)
         if output_file_path:
-            with open(output_file_path, "rb") as f:
-                bytes = f.read()
-                st.download_button(label="Download Output File", data=bytes, file_name=os.path.basename(output_file_path))
+            st.download_button(
+                label="Download Output File",
+                data=output_file_path,
+                file_name=os.path.basename(output_file_path)
+            )
     else:
         st.error("All fields are required.")
 
