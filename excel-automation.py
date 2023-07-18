@@ -40,9 +40,9 @@ st.title('Excel Automation')
 
 uploaded_file = st.file_uploader("Choose a file", type=['xls', 'xlsx'])
 bonus_type = st.selectbox("Bonus type", ["Free Bets", "Free Spins", "Casino Bonus", "Sports Bonus", "Prize Picker"])
-bonus_code = st.text_input("Bonus code", "ddmmy")
-name = st.text_input("Name", "Test")
-platform = st.selectbox("Platform", ["PBULL", "Platform 2", "Platform 3"])
+bonus_code = st.text_input("Bonus code", "Bonuscode_ddmmyy")
+name = st.text_input("Name")
+platform = st.selectbox("Platform", ["PBULL", "SBULL"])
 
 if st.button('Process File'):
     if uploaded_file is not None and bonus_type and bonus_code and name and platform:
