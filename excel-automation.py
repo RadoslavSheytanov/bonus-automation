@@ -94,6 +94,6 @@ st.markdown(f"Development and Support - [LinkedIn]({linkedin_url}) and [GitHub](
 
 # Add email link
 email = "radoslav@programmer.net"
-st.markdown(f"Questions? Feel free to [message the developer directly](mailto:{email})")
+st.markdown(f"Questions? Feel free to [message the developer directly.](mailto:{email})")
 
 
