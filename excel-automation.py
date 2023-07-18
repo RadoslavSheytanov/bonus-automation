@@ -44,7 +44,7 @@ def get_csv_download_link(csv_file):
     with open(csv_file, 'rb') as f:
         bytes = f.read()
         b64 = base64.b64encode(bytes).decode()
-        href = f'<a href="data:file/csv;base64,{b64}" download="{csv_file.split("/")[-1]}" style="display: inline-block; padding: 0.5em 1em; color: #ffffff; background-color: #007bff; border-radius: 0.25em; text-decoration: none;">Download CSV File</a>'
+        href = f'<a href="data:file/csv;base64,{b64}" download="{csv_file.split("/")[-1]}" style="display: inline-block; padding: 0.5em 1em; color: #ffffff; background-color: #007bff; border-radius: 0.25em; text-decoration: none;">Download Bonus Template</a>'
     return href
 
 st.title('Bonus Templating System')
@@ -65,7 +65,7 @@ if st.button('Process File'):
 
         # Display the VIP data
         if vip_data is not None and not vip_data.empty:
-            st.markdown("**VIP Players (should be credited in a different campaign):**", unsafe_allow_html=True)
+            st.markdown("**ATTENTION: The file consist of the following VIP Players (should be credited in a different campaign):**", unsafe_allow_html=True)
             st.dataframe(vip_data)
         else:
             st.success("This file doesn't contain VIP Players. Credit as normal.")
