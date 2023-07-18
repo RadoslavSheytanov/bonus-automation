@@ -10,11 +10,13 @@ def process_file(source_file, bonus_type, bonus_code, name, platform):
         # Load the source file using pandas
         df = pd.read_excel(source_file)
 
+        # Keep only the first two columns
+        df = df.iloc[:, :2]
+
         # Determine the header based on the bonus type
         if bonus_type == 'Free Bets' or bonus_type == 'Casino Bonus' or bonus_type == 'Sports Bonus' or bonus_type == 'Prize Picker':
             header = ['SBUSERID', 'Bonus Value']
         elif bonus_type == 'Free Spins':
-            df = df.iloc[:, :2]  # Keep only the first two columns
             header = None  # No header for Free Spins
         else:
             header = [''] * df.shape[1]
