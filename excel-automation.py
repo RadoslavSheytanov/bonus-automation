@@ -74,3 +74,8 @@ if st.button('Process File'):
             st.success("This file doesn't contain VIP Players. Credit as normal.")
     else:
         st.error("Please provide all inputs.")
+
+# Add hyperlinks to LinkedIn and GitHub
+linkedin_url = "https://ie.linkedin.com/in/radoslav-sheytanov-771a43260"
+github_url = "https://github.com/radoslavSheytanov/"
+st.markdown(f"Development and Support - [LinkedIn]({linkedin_url}) and [GitHub]({github_url})")
