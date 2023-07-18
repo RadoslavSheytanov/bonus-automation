@@ -35,7 +35,7 @@ Upon running the application, you will be presented with a web interface to inte
 
 3. **Bonus Code**: Enter the bonus code for the selected bonus type. This code will be used in the generated CSV file name.
 
-4. **Name**: Enter the name associated with the bonus. This name will also be included in the generated CSV file name.
+4. **Name**: Enter the agent's name associated with the bonus crediting. This name will also be included in the generated CSV file name.
 
 5. **Platform**: Select the platform from the dropdown list. The available options are:
    - PBULL
