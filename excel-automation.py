@@ -21,13 +21,21 @@ def process_file(source_file, bonus_type, bonus_code, name, platform):
         elif bonus_type == 'Free Spins (Daily Lucky Spins)':
             header = ['(insert SbPin)', '(insert amount)']
         else:
-            # Use empty strings as headers if the bonus type doesn't match any condition
             header = [''] * df.shape[1]
+
+        # Adjust the header if the number of columns doesn't match
+        if len(header) != df.shape[1]:
+            st.warning(f"Warning: The number of columns in the file ({df.shape[1]}) doesn't match the expected header length ({len(header)}).")
+
+            if len(header) > df.shape[1]:
+                header = header[:df.shape[1]]
+            else:
+                df = df.iloc[:, :len(header)]
 
         # Assign the header to the DataFrame
         df.columns = header
 
-        # Save the DataFrame to a csv file
+        # Save the DataFrame to a CSV file
         df.to_csv(output_file_path, index=False)
 
         # Print completion message
