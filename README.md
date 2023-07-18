@@ -2,7 +2,6 @@
 
 ![image](plantUML-diagram.png)
 
-
 ## Overview
 The Bonus Templating System is a Streamlit application that allows users to process data from an Excel file and generate a CSV file based on the selected bonus type. The generated CSV file can be downloaded by the user.
 
@@ -19,7 +18,6 @@ To run the Bonus Templating System, make sure you have Python 3.x installed on y
 3. Install the required Python dependencies using pip: `pip install -r requirements.txt`
 4. Run the application: `streamlit run excel-automation.py`
 
-
 This will start the Streamlit development server...
 
 ## Usage
@@ -29,20 +27,20 @@ Upon running the application, you will be presented with a web interface to inte
 1. **Source File**: Use the file uploader to select an Excel file (.xlsx or .xls) containing the source data. The selected file will be processed by the application.
 
 2. **Bonus Type**: Select the type of bonus from the dropdown list. The available options are:
-- Free Bets
-- Free Spins
-- Free Spins (Daily Lucky Spins)
-- Casino Bonus
-- Sports Bonus
-- Prize Picker
+   - Free Bets
+   - Free Spins
+   - Free Spins (Daily Lucky Spins)
+   - Casino Bonus
+   - Sports Bonus
+   - Prize Picker
 
 3. **Bonus Code**: Enter the bonus code for the selected bonus type. This code will be used in the generated CSV file name.
 
 4. **Name**: Enter the name associated with the bonus. This name will also be included in the generated CSV file name.
 
 5. **Platform**: Select the platform from the dropdown list. The available options are:
-- PBULL
-- SBULL
+   - PBULL
+   - SBULL
 
 ### Process Button
 Click the "Process File" button to initiate the file processing and CSV generation. Before clicking the button, make sure all the input fields are filled in. If any field is missing, an error message will be displayed.
@@ -61,7 +59,7 @@ The `process_file()` function is responsible for processing the source file and 
 
 3. Retrieve the values in columns A and B from the source file, starting from the determined row, using `source_sheet.iter_rows()`.
 
-4. Prepare the output file name based on the bonus code, name, and current date. The file name format is "{bonus_code}_{name}_{platform}.csv".
+4. Prepare the output file name based on the bonus code, name, and platform. The file name format is "{bonus_code}_{name}_{platform}.csv".
 
 5. Determine the header based on the selected bonus type. The header varies depending on the bonus type.
 
@@ -82,10 +80,6 @@ The application also displays hyperlinks to the developer's LinkedIn and GitHub 
 
 The diagram was created with a PlantUML Script [PlantUML Script](https://plantuml.com/)
 
-
 ## Development and Support
 Your contributions are welcome!
-
----
-
 
