@@ -17,11 +17,11 @@ def process_file(source_file, bonus_type, bonus_code, name, platform):
             start_row = 1
 
         # Get the first two columns from the source file, starting from the determined row
-        df = df.iloc[start_row - 1:, :2]
+        df = df.iloc[start_row - 1:, :2].copy()
 
         # Prepare the CSV file name
         today = date.today()
-        output_file_name = f"{bonus_code.replace('ddmmyy', today.strftime('%d%m%y'))}_{name}_{platform}.csv"
+        output_file_name = f"{bonus_code.replace('ddmmy', today.strftime('%d%m%y'))}_{name}_{platform}.csv"
 
         # Create a temporary directory for the output files
         with tempfile.TemporaryDirectory() as temp_dir:
