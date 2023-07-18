@@ -1,4 +1,3 @@
-import traceback
 import pandas as pd
 import streamlit as st
 import tempfile
@@ -6,6 +5,7 @@ import os
 import datetime
 import re
 import base64
+import traceback
 import streamlit.components.v1 as components
 
 def process_file(source_file, bonus_type, bonus_code, name, platform, selected_date):
@@ -35,10 +35,10 @@ def process_file(source_file, bonus_type, bonus_code, name, platform, selected_d
         # Save the non-VIP data to a temporary CSV file
         temp_dir = tempfile.mkdtemp()
         if selected_date:
-            selected_date_str = selected_date.strftime('%d-%m-%y')
+            selected_date_str = selected_date.strftime('%Y-%m-%d')  # changed date format
             file_name = f"{bonus_code}_{selected_date_str}_{name}_{platform}.csv"
         else:
-            today_date = datetime.datetime.now().strftime('%d-%m-%y')
+            today_date = datetime.datetime.now().strftime('%Y-%m-%d')  # changed date format
             file_name = f"{bonus_code}_{today_date}_{name}_{platform}.csv"
         output_file_path = os.path.join(temp_dir, file_name)
         non_vip_data.to_csv(output_file_path, index=False, header=bonus_type != 'Free Spins')
@@ -46,6 +46,7 @@ def process_file(source_file, bonus_type, bonus_code, name, platform, selected_d
         return output_file_path, vip_data
     except Exception as e:
         st.error(f"An error occurred while processing the file: {str(e)}")
+        st.error(traceback.format_exc())
         return None, None
 
 def get_csv_download_link(csv_file):
