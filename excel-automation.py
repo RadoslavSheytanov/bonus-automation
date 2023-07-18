@@ -89,3 +89,7 @@ if st.button('Process File'):
 linkedin_url = "https://ie.linkedin.com/in/radoslav-sheytanov-771a43260"
 github_url = "https://github.com/radoslavSheytanov/"
 st.markdown(f"Development and Support - [LinkedIn]({linkedin_url}) and [GitHub]({github_url})")
+
+# Add email link
+email = "radoslav@programmer.net"
+st.markdown(f"Questions? Feel free to [message the developer directly](mailto:{email})")
