@@ -51,7 +51,7 @@ st.title('Bonus Templating System')
 
 uploaded_file = st.file_uploader("Choose a file", type=['xls', 'xlsx'])
 bonus_type = st.selectbox("Bonus type", ["Free Bets", "Free Spins", "Casino Bonus", "Sports Bonus", "Prize Picker"])
-bonus_code = st.text_input("Bonus code", "Bonuscode_ddmmyy")
+bonus_code = st.text_input("Bonus code", "Bonuscode")
 name = st.text_input("Name")
 platform = st.selectbox("Platform", ["PBULL", "SBULL"])
 
