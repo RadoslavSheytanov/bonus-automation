@@ -85,11 +85,18 @@ if st.button('Process File'):
     else:
         st.error("Please provide all inputs.")
 
-# Add hyperlinks to LinkedIn and GitHub
+# Add contact links
 linkedin_url = "https://ie.linkedin.com/in/radoslav-sheytanov-771a43260"
 github_url = "https://github.com/radoslavSheytanov/"
-st.markdown(f"Development and Support - [LinkedIn]({linkedin_url}) and [GitHub]({github_url})")
-
-# Add email link
 email = "radoslav@programmer.net"
-st.markdown(f"Questions? Feel free to [message the developer directly](mailto:{email})")
+
+st.markdown(f"""
+    <style>
+        .reportview-container .main footer {visibility: hidden;}
+    </style>
+    <p style="position: absolute; bottom: 2%; text-align: center; width: 100%;">
+        Development and Support - <a href="{linkedin_url}">LinkedIn</a> and <a href="{github_url}">GitHub</a><br>
+        Questions? Feel free to <a href="mailto:{email}">send me an email</a>
+    </p>
+""", unsafe_allow_html=True)
+
