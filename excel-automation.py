@@ -63,7 +63,7 @@ if st.button('Process File'):
             st.download_button(
                 label="Download Output File",
                 data=file_bytes,
-                file_name=output_file_name
+                file_name=output_file_path.split('/')[-1]
             )
     else:
         st.error("All fields are required.")
