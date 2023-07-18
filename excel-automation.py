@@ -68,7 +68,7 @@ if st.button('Process File'):
 
         # Display the VIP data
         if vip_data is not None and not vip_data.empty:
-            st.markdown("**VIP Players (should be credited in a different campaign):**", unsafe_allow_html=True)
+            st.markdown("**ATTENTION: This file consists of VIP Players and they should be credited in a different campaign:**", unsafe_allow_html=True)
             st.dataframe(vip_data)
         else:
             st.success("This file doesn't contain VIP Players. Credit as normal.")
