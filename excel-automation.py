@@ -25,16 +25,16 @@ def process_file(source_file, bonus_type, bonus_code, name, platform):
         output_file_name = f"{bonus_code.replace('ddmmy', today.strftime('%d%m%y'))}_{name}_{platform}.csv"
 
         # Create a temporary directory for the output files
-        with tempfile.TemporaryDirectory() as temp_dir:
-            output_file_path = os.path.join(temp_dir, output_file_name)
+        temp_dir = tempfile.mkdtemp()
 
-            # Save the DataFrame to a CSV file
-            df.to_csv(output_file_path, index=False, header=header)
+        # Save the DataFrame to a CSV file
+        output_file_path = os.path.join(temp_dir, output_file_name)
+        df.to_csv(output_file_path, index=False, header=header)
 
-            # Print completion message
-            st.success("File processing completed successfully")
+        # Print completion message
+        st.success("File processing completed successfully")
 
-            return output_file_path
+        return output_file_path
 
     except Exception as e:
         # Print error message
@@ -63,7 +63,7 @@ if st.button('Process File'):
             st.download_button(
                 label="Download Output File",
                 data=file_bytes,
-                file_name=output_file_path.split('/')[-1]
+                file_name=output_file_name
             )
     else:
         st.error("All fields are required.")
