@@ -6,7 +6,6 @@ import os  # For file path manipulations
 import datetime  # For handling date related functions
 import base64  # For encoding the file for download
 import traceback  # For detailed error handling
-import streamlit.components.v1 as components  # For handling streamlit components
 
 # This function handles processing the uploaded file based on the provided parameters
 def process_file(source_file, bonus_type, bonus_code, name, platform, selected_date):
@@ -60,7 +59,7 @@ def process_file(source_file, bonus_type, bonus_code, name, platform, selected_d
         output_file_path = os.path.join(temp_dir, file_name)
         
         # Save the DataFrame to a CSV file
-        df.to_csv(output_file_path, index=False, header=True)
+        df.to_csv(output_file_path, index=False, header=(bonus_type != 'Free Spins'))
 
         # Return the path of the output file and the VIP data (if any)
         return output_file_path, vip_data if bonus_type != 'Casino Bonus (Casino Calendar)' else None
