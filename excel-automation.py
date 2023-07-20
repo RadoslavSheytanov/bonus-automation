@@ -17,7 +17,7 @@ def process_file(source_file, bonus_type, bonus_code, name, platform, selected_d
         if bonus_type == 'Casino Bonus (Casino Calendar)':
             # Keep only the second and third columns and set the headers
             df = df.iloc[:, 1:3]
-            df.columns = ['SBUSERID', 'Bonus Code']
+            df.columns = ['SBUSERID', 'Bonus Value']
         else:
             # Convert second column to string type to handle potential non-string values
             df.iloc[:, 1] = df.iloc[:, 1].astype(str)
@@ -37,7 +37,7 @@ def process_file(source_file, bonus_type, bonus_code, name, platform, selected_d
             elif bonus_type == 'Free Spins':
                 non_vip_data.columns = [None, None]
             elif bonus_type in ['Casino Bonus', 'Sports Bonus', 'Prize Picker']:
-                non_vip_data.columns = ['SBUSERID', 'Bonus Code']
+                non_vip_data.columns = ['SBUSERID', 'Bonus Value']
             else:
                 non_vip_data.columns = ['', '']
 
