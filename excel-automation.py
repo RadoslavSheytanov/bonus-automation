@@ -15,7 +15,7 @@ def process_file(source_file, bonus_type, bonus_code, name, platform, selected_d
         df = pd.read_excel(source_file)
         
         # Handle the 'Casino Calendar' bonus type separately
-        if bonus_type == 'Casino Calendar':
+        if bonus_type == 'Casino Bonus (Casino Calendar)':
             # Keep only the second and third columns and set the headers
             df = df.iloc[:, 1:3]
             df.columns = ['SBUSERID', 'Bonus Code']
@@ -63,7 +63,7 @@ def process_file(source_file, bonus_type, bonus_code, name, platform, selected_d
         df.to_csv(output_file_path, index=False, header=True)
 
         # Return the path of the output file and the VIP data (if any)
-        return output_file_path, vip_data if bonus_type != 'Casino Calendar' else None
+        return output_file_path, vip_data if bonus_type != 'Casino Bonus (Casino Calendar)' else None
     except Exception as e:
         # If there's an error during the processing, show the error message and detailed traceback
         st.error(f"An error occurred while processing the file: {str(e)}")
@@ -84,7 +84,7 @@ st.title('Bonus Templating System')
 
 # Create file uploader, dropdowns, text inputs, and date input for user to provide necessary information
 uploaded_file = st.file_uploader("Choose a file", type=['xls', 'xlsx'])
-bonus_type = st.selectbox("Bonus Type:", ["------", "Free Bets", "Free Spins", "Casino Bonus", "Sports Bonus", "Prize Picker", "Casino Calendar"])
+bonus_type = st.selectbox("Bonus Type:", ["------", "Free Bets", "Free Spins", "Casino Bonus", "Sports Bonus", "Prize Picker", "Casino Bonus (Casino Calendar)"])
 bonus_code = st.text_input("Bonus Code:", "")
 selected_date = st.date_input("Select Date:")
 name = st.text_input("Agent's Name:")
