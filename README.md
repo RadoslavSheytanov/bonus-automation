@@ -32,6 +32,7 @@ Upon running the application, you will be presented with a web interface to inte
    - Casino Bonus
    - Sports Bonus
    - Prize Picker
+   - Casino Bonus (Casino Calendar)
 
 3. **Bonus Code**: Enter the bonus code for the selected bonus type. This code will be used in the generated CSV file name.
 
@@ -42,7 +43,7 @@ Upon running the application, you will be presented with a web interface to inte
    - SBULL
 
 ### Process Button
-Click the "Process File" button to initiate the file processing and CSV generation. Before clicking the button, make sure all the input fields are filled in. If any field is missing, an error message will be displayed.
+Click the "Download CSV File" button to initiate the file processing and CSV generation. Before clicking the button, make sure all the input fields are filled in. If any field is missing, an error message will be displayed.
 
 ### Output
 Once the file processing is completed successfully, a success message will be displayed, indicating that the processing is finished.
